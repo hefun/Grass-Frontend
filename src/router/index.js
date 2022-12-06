@@ -67,12 +67,21 @@ const publicRoutes = [
     path: '/apply',
     component: Layout,
     redirect: '/apply/applyleaveschool',
-    name: 'applyLeaveSchool',
+    name: 'apply',
     meta: {
       title: '出入校申请',
       icon: 'dashboard'
     },
     children: [
+      {
+        path: '/apply/myapply',
+        name: 'myApply',
+        component: () => import('@/views/myApply/index'),
+        meta: {
+          title: '我的申请',
+          icon: 'dashboard'
+        }
+      },
       {
         path: '/apply/leaveschool',
         name: 'applyLeaveSchool',
