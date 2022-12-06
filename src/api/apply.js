@@ -10,10 +10,10 @@ export function addApply(data) {
 }
 
 // 查询我的申请（学生） TODO: 尚不清楚能否正常使用
-export function fetchMyApply(sid) {
+export function fetchMyApply(query) {
   return request({
-    url: 'apply/list',
+    url: 'apply/listForm',
     method: 'get',
-    params: { sid }
+    params: query
   })
 }

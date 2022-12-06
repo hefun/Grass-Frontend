@@ -1,3 +1,23 @@
+const Mock = require('mockjs')
+
+const List = []
+const count = 100
+
+for (let i = 0; i < count; i++) {
+  List.push(Mock.mock({
+    id: '@increment',
+    from_id: 0,
+    to_id: 2,
+    from_time: Mock.Random.datetime('yyyy/MM/dd HH:mm:ss'),
+    to_time: '',
+    start_time: Mock.Random.datetime('yyyy/MM/dd HH:mm:ss'),
+    end_time: Mock.Random.datetime('yyyy/MM/dd HH:mm:ss'),
+    reason: '@String(5, 200)',
+    destination: '@String(2, 200)',
+    comment: '',
+    'status|1': [0, 1, 2]
+  }))
+}
 
 module.exports = [
   {
@@ -23,6 +43,21 @@ module.exports = [
         }
       }
     }
+  },
+  {
+    url: '/apply/listForm',
+    type: 'get',
+    response: config => {
+      const { page = 1, limit = 10 } = config.query
+      const pageList = List.filter((item, index) => index < limit * page && index >= limit * (page - 1))
+
+      return {
+        code: 20000,
+        data: pageList,
+        total: List.length
+      }
+    }
+
   }
 ]
 

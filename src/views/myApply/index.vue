@@ -30,36 +30,57 @@
       fit
       highlight-current-row
       style="width: 100%;"
-      @sort-change="sortChange"
     >
-      <el-table-column label="序号" prop="id" sortable="custom" align="center" width="80" :class-name="getSortClass('id')">
+      <el-table-column label="序号" prop="id" sortable="custom" align="center">
         <template slot-scope="{row}">
           <span>{{ row.id }}</span>
         </template>
       </el-table-column>
-      <el-table-column label="申请时间" width="150px" align="center">
+      <el-table-column label="申请提交时间" align="center">
         <template slot-scope="{row}">
-          <span>{{ row.timestamp | parseTime('{y}-{m}-{d} {h}:{i}') }}</span>
+          <span>{{ row.from_time }}</span>
         </template>
       </el-table-column>
-      <el-table-column label="Author" width="110px" align="center">
+      <el-table-column label="申请开始时间" align="center">
         <template slot-scope="{row}">
-          <span>{{ row.author }}</span>
+          <span>{{ row.start_time }}</span>
+        </template>
+      </el-table-column>
+      <el-table-column label="申请结束时间" align="center">
+        <template slot-scope="{row}">
+          <span>{{ row.end_time }}</span>
+        </template>
+      </el-table-column>
+      <el-table-column label="详细事由" align="center">
+        <template slot-scope="{row}">
+          <span>{{ row.reason }}</span>
+        </template>
+      </el-table-column>
+      <el-table-column label="详细行程" align="center">
+        <template slot-scope="{row}">
+          <span>{{ row.destination }}</span>
+        </template>
+      </el-table-column>
+      <el-table-column label="审批状态" class-name="status-col" width="100">
+        <template slot-scope="{row}">
+          <el-tag :type="row.status | statusFilter">
+            {{ row.status }}
+          </el-tag>
         </template>
       </el-table-column>
       <el-table-column label="Actions" align="center" width="230" class-name="small-padding fixed-width">
         <template slot-scope="{row,$index}">
           <el-button type="primary" size="mini" @click="handleUpdate(row)">
-            Edit
+            编辑
           </el-button>
-          <el-button v-if="row.status!='published'" size="mini" type="success" @click="handleModifyStatus(row,'published')">
+          <!--el-button v-if="row.status!='published'" size="mini" type="success" @click="handleModifyStatus(row,'published')">
             Publish
-          </el-button>
-          <el-button v-if="row.status!='draft'" size="mini" @click="handleModifyStatus(row,'draft')">
+          </el-button-->
+          <!--el-button v-if="row.status!='draft'" size="mini" @click="handleModifyStatus(row,'draft')">
             Draft
-          </el-button>
-          <el-button v-if="row.status!='deleted'" size="mini" type="danger" @click="handleDelete(row,$index)">
-            Delete
+          </el-button-->
+          <el-button size="mini" type="danger" @click="handleDelete(row,$index)">
+            删除
           </el-button>
         </template>
       </el-table-column>
@@ -67,7 +88,7 @@
 
     <pagination v-show="total>0" :total="total" :page.sync="listQuery.page" :limit.sync="listQuery.limit" @pagination="getList" />
 
-    <el-dialog :title="textMap[dialogStatus]" :visible.sync="dialogFormVisible">
+    <!--el-dialog :title="textMap[dialogStatus]" :visible.sync="dialogFormVisible">
       <el-form ref="dataForm" :rules="rules" :model="temp" label-position="left" label-width="70px" style="width: 400px; margin-left:50px;">
         <el-form-item label="Type" prop="type">
           <el-select v-model="temp.type" class="filter-item" placeholder="Please select">
@@ -100,7 +121,7 @@
           Confirm
         </el-button>
       </div>
-    </el-dialog>
+    </el-dialog-->
 
     <!--el-dialog :visible.sync="dialogPvVisible" title="Reading statistics">
       <el-table :data="pvData" border fit highlight-current-row style="width: 100%">
@@ -115,6 +136,52 @@
 </template>
 
 <script>
+import waves from '@/directive/waves'
+import Pagination from '@/components/Pagination'
+import { fetchMyApply } from '@/api/apply'
 
+export default {
+  name: 'MyApply',
+  components: { Pagination },
+  directives: { waves },
+  filters: {
+    statusFilter(status) { // TODO: 可能需要改
+      const statusMap = {
+        justSubmit: 0,
+        success: 1,
+        fail: 2
+      }
+      return statusMap[status]
+    }
+  },
+  data() {
+    return {
+      tableKey: 0,
+      list: null, // 申请信息的列表
+      total: 0,
+      listLoading: true,
+      statusOptions: ['未审批', '审批通过', '审批驳回'],
+      listQuery: {
+        page: 1,
+        limit: 10,
+        sort: '-time' // 按申请时间倒序排列
+      }
+    }
+  },
+  created() {
+    this.getList()
+  },
+  methods: {
+    getList() {
+      this.listLoading = true
+      fetchMyApply(this.listQuery).then(response => {
+        this.list = response.data // TODO: 待测试
+        this.total = response.total // TODO: 要改接口，可能是分页展示要用
+      })
+      this.listLoading = false
+    }
+  }
+
+}
 </script>
 

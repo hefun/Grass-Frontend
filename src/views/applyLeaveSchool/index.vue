@@ -95,8 +95,10 @@ export default {
     onCancel() {
       this.$message({
         message: 'cancel!',
-        type: 'warning'
+        type: 'warning',
+        duration: 1000
       })
+      this.$router.push({ name: 'myApply' })
     }
   }
 }
