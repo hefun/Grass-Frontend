@@ -1,6 +1,6 @@
 <template>
   <div class="app-container">
-    <el-form ref="form" :model="form" label-width="15%">
+    <el-form ref="form" :rules="rules" :model="form" label-width="15%">
       <el-form-item label="姓名">
         <el-input v-model="form.name" />
       </el-form-item>
@@ -34,25 +34,63 @@
 </template>
 
 <script>
+import { addApply } from '@/api/apply'
+
 export default {
   data() {
     return {
       form: {
-        name: '',
-        sid: '',
-        school: '',
-        phone: '',
-        reason: '',
-        startTime: '',
+        name: '田震',
+        sid: 'SY2221110',
+        school: '软件学院',
+        phone: '15936022797',
+        reason: '回家',
+        startTime: new Date(Date.now()),
         endTime: '',
-        destination: ''
-      }
+        destination: 'G312'
+      },
+      rules: {}
     }
   },
 
   methods: {
     onSubmit() {
-      this.$message('submit!')
+      console.log(this.form)
+      console.log(this.form.startTime)
+      this.$refs['form'].validate((valid) => {
+        if (valid) {
+          const formdata = { // 实际发送给后端的请求体
+            from_id: 1, // 这里用uid，暂时写成1，之后需要换成uid
+            from_time: new Date(Date.now()).toLocaleString(),
+            to_time: '',
+            start_time: this.form.startTime.toLocaleString(),
+            end_time: this.form.endTime.toLocaleString(),
+            destination: this.form.destination,
+            reason: this.form.reason,
+            comment: '',
+            status: 0
+          }
+          addApply(formdata).then(response => {
+            console.log(response)
+            if (response.status === 1) {
+              this.$notify({
+                title: 'Success',
+                message: '提交成功',
+                type: 'success',
+                duration: 2000
+              })
+              // 之后需要跳转到申请列表中去，也需要重新获取一次申请列表
+              this.$router.push({ name: 'myApply' })
+            } else {
+              this.$message({
+                message: '出错了……',
+                type: 'error'
+              })
+            }
+          })
+        }
+      })
+      // this.$message('submit!')
     },
     onCancel() {
       this.$message({
