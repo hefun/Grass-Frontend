@@ -24,13 +24,21 @@ import Layout from '@/layout'
     activeMenu: '/example/list'  if set path, the sidebar will highlight the path you set
   }
  */
+// import ApplyLeaveSchool from './modules/ApplyLeaveSchool'
 
 /**
- * constantRoutes
+ * priviteRoutes
+ */
+// export const privateRoutes = [
+//   ApplyLeaveSchool
+// ]
+
+/**
+ * publicRoutes
  * a base page that does not have permission requirements
  * all roles can be accessed
  */
-export const constantRoutes = [
+const publicRoutes = [
   {
     path: '/login',
     component: () => import('@/views/login/index'),
@@ -53,6 +61,28 @@ export const constantRoutes = [
       component: () => import('@/views/dashboard/index'),
       meta: { title: 'Dashboard', icon: 'dashboard' }
     }]
+  },
+
+  {
+    path: '/apply',
+    component: Layout,
+    redirect: '/apply/applyleaveschool',
+    name: 'applyLeaveSchool',
+    meta: {
+      title: '出入校申请',
+      icon: 'dashboard'
+    },
+    children: [
+      {
+        path: '/apply/leaveschool',
+        name: 'applyLeaveSchool',
+        component: () => import('@/views/applyLeaveSchool/index'),
+        meta: {
+          title: '出校申请',
+          icon: 'dashboard'
+        }
+      }
+    ]
   },
 
   {
@@ -149,17 +179,6 @@ export const constantRoutes = [
     ]
   },
 
-  {
-    path: 'external-link',
-    component: Layout,
-    children: [
-      {
-        path: 'https://panjiachen.github.io/vue-element-admin-site/#/',
-        meta: { title: 'External Link', icon: 'link' }
-      }
-    ]
-  },
-
   // 404 page must be placed at the end !!!
   { path: '*', redirect: '/404', hidden: true }
 ]
@@ -167,7 +186,7 @@ export const constantRoutes = [
 const createRouter = () => new Router({
   // mode: 'history', // require service support
   scrollBehavior: () => ({ y: 0 }),
-  routes: constantRoutes
+  routes: publicRoutes
 })
 
 const router = createRouter()
