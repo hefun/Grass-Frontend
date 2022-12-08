@@ -19,7 +19,7 @@
       <el-form-item label="开始时间">
         <el-date-picker v-model="form.startTime" type="datetime" placeholder="选择申请开始时间" style="width: 100%;" />
       </el-form-item>
-      <el-form-item label="开始时间">
+      <el-form-item label="结束时间">
         <el-date-picker v-model="form.endTime" type="datetime" placeholder="选择申请结束时间" style="width: 100%;" />
       </el-form-item>
       <el-form-item label="详细行程">
