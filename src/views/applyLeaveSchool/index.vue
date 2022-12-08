@@ -35,19 +35,19 @@
 
 <script>
 import { addApply } from '@/api/apply'
-
+import store from '@/store'
 export default {
   data() {
     return {
       form: {
-        name: '田震',
-        sid: 'SY2221110',
-        school: '软件学院',
-        phone: '15936022797',
-        reason: '回家',
-        startTime: new Date(Date.now()),
-        endTime: '',
-        destination: 'G312'
+        name: store.getters.name,
+        sid: store.getters.id,
+        school: store.getters.department,
+        phone: store.getters.phone,
+        reason: '',
+        startTime: undefined,
+        endTime: undefined,
+        destination: ''
       },
       rules: {}
     }

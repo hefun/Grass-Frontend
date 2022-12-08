@@ -55,10 +55,6 @@
 <script>
 // import { validUsername } from '@/utils/validate'
 import sha256 from 'crypto-js/sha256'
-/*
-  TODO:
-  1. 提交时候的密码加密的测试
-*/
 export default {
   name: 'Login',
   data() {
@@ -117,7 +113,7 @@ export default {
           this.loading = true
           const loginData = {
             username: this.loginForm.username,
-            password: sha256(this.loginForm.password)
+            password: sha256(this.loginForm.password).toString()
           }
           this.$store.dispatch('user/login', loginData).then(() => {
             this.$router.push({ path: this.redirect || '/' })
