@@ -12,8 +12,24 @@ export function addApply(data) {
 // 查询我的申请（学生） TODO: 尚不清楚能否正常使用
 export function fetchMyApply(query) {
   return request({
-    url: 'apply/listForm',
+    url: '/apply/listForm',
     method: 'get',
     params: query
+  })
+}
+
+export function updateApply(data) {
+  return request({
+    url: '/apply/update',
+    method: 'post',
+    data
+  })
+}
+
+export function deleteApply(data) {
+  return request({
+    url: '/apply/delete',
+    method: 'post',
+    data
   })
 }

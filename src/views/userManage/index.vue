@@ -33,42 +33,42 @@
     >
       <el-table-column label="序号" prop="id" sortable="custom" align="center">
         <template slot-scope="{row}">
+          <span>{{ row.userId }}</span>
+        </template>
+      </el-table-column>
+      <el-table-column label="学号" align="center">
+        <template slot-scope="{row}">
           <span>{{ row.id }}</span>
         </template>
       </el-table-column>
-      <el-table-column label="申请提交时间" align="center">
+      <el-table-column label="姓名" align="center">
         <template slot-scope="{row}">
-          <span>{{ row.from_time }}</span>
+          <span>{{ row.name }}</span>
         </template>
       </el-table-column>
-      <el-table-column label="申请开始时间" align="center">
+      <el-table-column label="学院" align="center">
         <template slot-scope="{row}">
-          <span>{{ row.start_time }}</span>
+          <span>{{ row.department }}</span>
         </template>
       </el-table-column>
-      <el-table-column label="申请结束时间" align="center">
+      <el-table-column label="联系方式" align="center">
         <template slot-scope="{row}">
-          <span>{{ row.end_time }}</span>
+          <span>{{ row.phone }}</span>
         </template>
       </el-table-column>
-      <el-table-column label="详细事由" align="center">
+      <el-table-column label="角色" align="center">
         <template slot-scope="{row}">
-          <span>{{ row.reason }}</span>
+          <span>{{ row.roles }}</span>
         </template>
       </el-table-column>
-      <el-table-column label="详细行程" align="center">
-        <template slot-scope="{row}">
-          <span>{{ row.destination }}</span>
-        </template>
-      </el-table-column>
-      <el-table-column label="审批状态" class-name="status-col" width="100">
+      <!--el-table-column label="审批状态" class-name="status-col" width="100">
         <template slot-scope="{row}">
           <el-tag :type="row.status | statusFilter">
             {{ row.status }}
           </el-tag>
         </template>
-      </el-table-column>
-      <el-table-column label="Actions" align="center" width="230" class-name="small-padding fixed-width">
+      </el-table-column-->
+      <el-table-column label="操作" align="center" width="230" class-name="small-padding fixed-width">
         <template slot-scope="{row,$index}">
           <el-button type="primary" size="mini" @click="handleUpdate(row)">
             编辑
@@ -141,26 +141,15 @@ import Pagination from '@/components/Pagination'
 import { fetchMyApply } from '@/api/apply'
 
 export default {
-  name: 'MyApply',
+  name: 'UserManage',
   components: { Pagination },
   directives: { waves },
-  filters: {
-    statusFilter(status) { // TODO: 可能需要改
-      const statusMap = {
-        justSubmit: 0,
-        success: 1,
-        fail: 2
-      }
-      return statusMap[status]
-    }
-  },
   data() {
     return {
       tableKey: 0,
       list: null, // 申请信息的列表
       total: 0,
       listLoading: true,
-      statusOptions: ['未审批', '审批通过', '审批驳回'],
       listQuery: {
         page: 1,
         limit: 10,

@@ -21,6 +21,11 @@
         reviewer
       </el-checkbox>
     </div-->
+    <div class="filter-container">
+      <el-select v-model="listQuery.sort" style="width:15em" class="fileter-item" @change="handleFilter">
+        <el-option v-for="item in sortOptions" :key="item.key" :label="item.label" :value="item.key" />
+      </el-select>
+    </div>
 
     <el-table
       :key="tableKey"
@@ -31,7 +36,7 @@
       highlight-current-row
       style="width: 100%;"
     >
-      <el-table-column label="序号" prop="id" sortable="custom" align="center">
+      <el-table-column label="序号" prop="id" align="center">
         <template slot-scope="{row}">
           <span>{{ row.id }}</span>
         </template>
@@ -63,12 +68,26 @@
       </el-table-column>
       <el-table-column label="审批状态" class-name="status-col" width="100">
         <template slot-scope="{row}">
-          <el-tag :type="row.status | statusFilter">
-            {{ row.status }}
+          <el-tag v-if="(row.status===0)" :type="row.status | statusFilter">
+            待审批
+          </el-tag>
+          <el-tag v-if="(row.status===1)" :type="row.status | statusFilter">
+            已通过
+          </el-tag>
+          <el-tag v-if="(row.status===2)" :type="row.status | statusFilter">
+            已驳回
           </el-tag>
         </template>
       </el-table-column>
-      <el-table-column label="Actions" align="center" width="230" class-name="small-padding fixed-width">
+      <el-table-column label="审批意见" align="center">
+        <template v-if="(row.status === 0)" slot-scope="{row}">
+          <span>暂无审批意见</span>
+        </template>
+        <template v-else slot-scope="{row}">
+          <span>{{ row.comments }}</span>
+        </template>
+      </el-table-column>
+      <el-table-column label="操作" align="center" class-name="small-padding fixed-width">
         <template slot-scope="{row,$index}">
           <el-button type="primary" size="mini" @click="handleUpdate(row)">
             编辑
@@ -88,40 +107,42 @@
 
     <pagination v-show="total>0" :total="total" :page.sync="listQuery.page" :limit.sync="listQuery.limit" @pagination="getList" />
 
-    <!--el-dialog :title="textMap[dialogStatus]" :visible.sync="dialogFormVisible">
-      <el-form ref="dataForm" :rules="rules" :model="temp" label-position="left" label-width="70px" style="width: 400px; margin-left:50px;">
-        <el-form-item label="Type" prop="type">
-          <el-select v-model="temp.type" class="filter-item" placeholder="Please select">
-            <el-option v-for="item in calendarTypeOptions" :key="item.key" :label="item.display_name" :value="item.key" />
-          </el-select>
+    <el-dialog :title="编辑申请" :visible.sync="dialogFormVisible">
+      <el-form ref="dataForm" :rules="rules" :model="temp" label-position="left">
+        <el-form-item label="姓名">
+          <el-input v-model="user.name" :disabled="true" />
         </el-form-item>
-        <el-form-item label="Date" prop="timestamp">
-          <el-date-picker v-model="temp.timestamp" type="datetime" placeholder="Please pick a date" />
+        <el-form-item label="学号">
+          <el-input v-model="user.id" :disabled="true" />
         </el-form-item>
-        <el-form-item label="Title" prop="title">
-          <el-input v-model="temp.title" />
+        <el-form-item label="学院/书院">
+          <el-input v-model="user.department" :disabled="true" />
         </el-form-item>
-        <el-form-item label="Status">
-          <el-select v-model="temp.status" class="filter-item" placeholder="Please select">
-            <el-option v-for="item in statusOptions" :key="item" :label="item" :value="item" />
-          </el-select>
+        <el-form-item label="联系方式">
+          <el-input v-model="user.phone" :disabled="true" />
         </el-form-item>
-        <el-form-item label="Imp">
-          <el-rate v-model="temp.importance" :colors="['#99A9BF', '#F7BA2A', '#FF9900']" :max="3" style="margin-top:8px;" />
+        <el-form-item label="详细事由">
+          <el-input v-model="temp.reason" type="textarea" />
         </el-form-item>
-        <el-form-item label="Remark">
-          <el-input v-model="temp.remark" :autosize="{ minRows: 2, maxRows: 4}" type="textarea" placeholder="Please input" />
+        <el-form-item label="开始时间">
+          <el-date-picker v-model="temp.startTime" type="datetime" placeholder="选择申请开始时间" style="width: 100%;" />
+        </el-form-item>
+        <el-form-item label="结束时间">
+          <el-date-picker v-model="temp.endTime" type="datetime" placeholder="选择申请结束时间" style="width: 100%;" />
+        </el-form-item>
+        <el-form-item label="详细行程">
+          <el-input v-model="temp.destination" type="textarea" />
         </el-form-item>
       </el-form>
       <div slot="footer" class="dialog-footer">
         <el-button @click="dialogFormVisible = false">
-          Cancel
+          取消
         </el-button>
-        <el-button type="primary" @click="dialogStatus==='create'?createData():updateData()">
-          Confirm
+        <el-button type="primary" @click="updateData()">
+          确认
         </el-button>
       </div>
-    </el-dialog-->
+    </el-dialog>
 
     <!--el-dialog :visible.sync="dialogPvVisible" title="Reading statistics">
       <el-table :data="pvData" border fit highlight-current-row style="width: 100%">
@@ -138,18 +159,18 @@
 <script>
 import waves from '@/directive/waves'
 import Pagination from '@/components/Pagination'
-import { fetchMyApply } from '@/api/apply'
-
+import { deleteApply, fetchMyApply, updateApply } from '@/api/apply'
+import store from '@/store'
 export default {
   name: 'MyApply',
   components: { Pagination },
   directives: { waves },
   filters: {
-    statusFilter(status) { // TODO: 可能需要改
+    statusFilter(status) {
       const statusMap = {
-        justSubmit: 0,
-        success: 1,
-        fail: 2
+        0: 'info',
+        1: 'success',
+        2: 'danger'
       }
       return statusMap[status]
     }
@@ -162,9 +183,40 @@ export default {
       listLoading: true,
       statusOptions: ['未审批', '审批通过', '审批驳回'],
       listQuery: {
+        from_id: store.getters.userId,
         page: 1,
         limit: 10,
         sort: '-time' // 按申请时间倒序排列
+      },
+      sortOptions: [
+        {
+          label: '按申请时间倒序排列',
+          key: '-time'
+        },
+        {
+          label: '按申请时间正序排列',
+          key: '+time'
+        }
+      ],
+      dialogFormVisible: false,
+      rules: {
+        reason: [{ required: true, message: '详细事由不能为空', trigger: 'blur' }],
+        startTime: [{ type: 'date', required: true, message: '请选择开始时间', trigger: 'change' }],
+        endTime: [{ type: 'date', required: true, message: '请选择结束时间', trigger: 'change' }],
+        destination: [{ required: true, message: '详细行程不能为空', trigger: 'blur' }]
+      },
+      user: {
+        name: store.getters.name,
+        id: store.getters.id,
+        department: store.getters.department,
+        phone: store.getters.phone
+      },
+      temp: {
+        id: 0,
+        startTime: new Date(),
+        endTime: new Date(),
+        destination: '',
+        reason: ''
       }
     }
   },
@@ -175,10 +227,61 @@ export default {
     getList() {
       this.listLoading = true
       fetchMyApply(this.listQuery).then(response => {
-        this.list = response.data // TODO: 待测试
-        this.total = response.total // TODO: 要改接口，可能是分页展示要用
+        this.list = response.data
+        this.total = response.total
       })
       this.listLoading = false
+    },
+    handelFilter() {
+      this.listQuery.page = 1
+      this.getList()
+    },
+    handleUpdate(row) {
+      this.temp.id = row.id
+      this.temp.startTime = new Date(Date.parse(row.start_time))
+      this.temp.endTime = new Date(Date.parse(row.end_time))
+      this.temp.destination = row.destination
+      this.temp.reason = row.reason
+      this.dialogFormVisible = true
+      this.$nextTick(() => {
+        this.$refs['dataForm'].clearValidate()
+      })
+    },
+    updateData() {
+      this.$refs['dataForm'].validate((valid) => {
+        if (valid) {
+          const tempData = {
+            from_id: store.getters.userId,
+            apply_id: this.temp.id,
+            start_time: this.temp.startTime,
+            end_time: this.temp.endTime,
+            destination: this.temp.destination,
+            reason: this.temp.reason
+          }
+          updateApply(tempData).then(response => {
+            const index = this.list.findIndex(v => v.id === this.temp.id)
+            this.list.splice(index, 1, response.data)
+            this.dialogFormVisible = false
+            this.$notify({
+              title: 'Success',
+              message: '申请修改成功',
+              type: 'success',
+              duration: 1000
+            })
+          })
+        }
+      })
+    },
+    handleDelete(row, index) {
+      deleteApply({ form_id: store.getters.userId, apply_id: row.id }).then(() => {
+        this.$notify({
+          title: 'Success',
+          message: '删除成功',
+          type: 'success',
+          duration: 1000
+        })
+        this.getList()
+      })
     }
   }
 

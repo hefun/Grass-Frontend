@@ -66,11 +66,11 @@ const publicRoutes = [
   {
     path: '/apply',
     component: Layout,
-    redirect: '/apply/applyleaveschool',
+    redirect: '/apply/myapply',
     name: 'apply',
     meta: {
       title: '出入校申请',
-      icon: 'dashboard'
+      icon: 'guide'
     },
     children: [
       {
@@ -79,7 +79,7 @@ const publicRoutes = [
         component: () => import('@/views/myApply/index'),
         meta: {
           title: '我的申请',
-          icon: 'dashboard'
+          icon: 'list'
         }
       },
       {
@@ -88,7 +88,7 @@ const publicRoutes = [
         component: () => import('@/views/applyLeaveSchool/index'),
         meta: {
           title: '出校申请',
-          icon: 'dashboard'
+          icon: 'form'
         }
       }
     ]
