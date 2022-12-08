@@ -2,11 +2,22 @@ import { login, logout, getInfo } from '@/api/user'
 import { getToken, setToken, removeToken } from '@/utils/auth'
 import { resetRouter } from '@/router'
 
+// 除token在Cookies中也进行get/set外，其他都使用state进行操作
+// 在进行权限管理的时候，会用到roles和permission的set
 const getDefaultState = () => {
   return {
     token: getToken(),
     name: '',
-    avatar: ''
+    avatar: 'https://wpimg.wallstcn.com/f778738c-e4f8-4870-b634-56703b4acafe.gif',
+    userId: '',
+    id: '',
+    department: '',
+    phone: '',
+    roles: [],
+    permission: {
+      menus: [],
+      points: []
+    }
   }
 }
 
@@ -24,6 +35,24 @@ const mutations = {
   },
   SET_AVATAR: (state, avatar) => {
     state.avatar = avatar
+  },
+  SET_USERID: (state, userId) => {
+    state.userId = userId
+  },
+  SET_ID: (state, id) => {
+    state.id = id
+  },
+  SET_DEPARTMENT: (state, department) => {
+    state.department = department
+  },
+  SET_PHONE: (state, phone) => {
+    state.phone = phone
+  },
+  SET_ROLES: (state, roles) => {
+    state.roles = roles
+  },
+  SET_PERMISSION: (state, permission) => {
+    state.permission = permission
   }
 }
 
@@ -35,6 +64,8 @@ const actions = {
       login({ username: username.trim(), password: password }).then(response => {
         const { data } = response
         commit('SET_TOKEN', data.token)
+        commit('SET_USERID', data.userId)
+        commit('SET_ID', data.id)
         setToken(data.token)
         resolve()
       }).catch(error => {
@@ -46,17 +77,21 @@ const actions = {
   // get user info
   getInfo({ commit, state }) {
     return new Promise((resolve, reject) => {
-      getInfo(state.token).then(response => {
+      getInfo({ id: state.id }).then(response => {
         const { data } = response
 
         if (!data) {
           return reject('Verification failed, please Login again.')
         }
 
-        const { name, avatar } = data
+        const { name, department, phone, roles, permission } = data
 
         commit('SET_NAME', name)
-        commit('SET_AVATAR', avatar)
+        commit('SET_DEPARTMENT', department)
+        commit('SET_PHONE', phone)
+        commit('SET_ROLES', roles)
+        commit('SET_PERMISSION', permission)
+
         resolve(data)
       }).catch(error => {
         reject(error)
