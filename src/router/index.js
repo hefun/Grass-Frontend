@@ -95,6 +95,37 @@ const publicRoutes = [
   },
 
   {
+    path: '/review',
+    component: Layout,
+    redirect: '/review/reviewleaveschool',
+    name: 'review',
+    meta: {
+      title: '出入校审批',
+      icon: 'dashboard'
+    },
+    children: [
+      {
+        path: '/review/myreview',
+        name: 'myReview',
+        component: () => import('@/views/myReview/index'),
+        meta: {
+          title: '我的审批',
+          icon: 'dashboard'
+        }
+      },
+      {
+        path: '/review/leaveschool',
+        name: 'reviewLeaveSchool',
+        component: () => import('@/views/reviewLeaveSchool/index'),
+        meta: {
+          title: '出校审批',
+          icon: 'dashboard'
+        }
+      }
+    ]
+  },
+
+  {
     path: '/example',
     component: Layout,
     redirect: '/example/table',
