@@ -8,20 +8,20 @@ const tokens = {
   }
 }
 
-const users = {
-  'admin-token': {
-    roles: ['admin'],
-    introduction: 'I am a super administrator',
-    avatar: 'https://wpimg.wallstcn.com/f778738c-e4f8-4870-b634-56703b4acafe.gif',
-    name: 'Super Admin'
-  },
-  'editor-token': {
-    roles: ['editor'],
-    introduction: 'I am an editor',
-    avatar: 'https://wpimg.wallstcn.com/f778738c-e4f8-4870-b634-56703b4acafe.gif',
-    name: 'Normal Editor'
-  }
-}
+// const users = {
+//   'admin-token': {
+//     roles: ['admin'],
+//     introduction: 'I am a super administrator',
+//     avatar: 'https://wpimg.wallstcn.com/f778738c-e4f8-4870-b634-56703b4acafe.gif',
+//     name: 'Super Admin'
+//   },
+//   'editor-token': {
+//     roles: ['editor'],
+//     introduction: 'I am an editor',
+//     avatar: 'https://wpimg.wallstcn.com/f778738c-e4f8-4870-b634-56703b4acafe.gif',
+//     name: 'Normal Editor'
+//   }
+// }
 
 module.exports = [
   // user login
@@ -46,30 +46,67 @@ module.exports = [
       }
     }
   },
-
-  // get user info
   {
-    url: '/vue-admin-template/user/info\.*',
-    type: 'get',
-    response: config => {
-      const { token } = config.query
-      const info = users[token]
-
-      // mock error
-      if (!info) {
-        return {
-          code: 50008,
-          message: 'Login failed, unable to get user details.'
-        }
-      }
-
+    url: '/users/login',
+    type: 'post',
+    reponse: config => {
       return {
         code: 20000,
-        data: info
+        data: {
+          userId: 1,
+          id: 'SY2221110',
+          token: 'gaoigamnrgpwpg9wngogano8dua'
+        }
       }
     }
   },
+  // get user info
+  // {
+  //   url: '/vue-admin-template/user/info\.*',
+  //   type: 'get',
+  //   response: config => {
+  //     const { token } = config.query
+  //     const info = users[token]
 
+  //     // mock error
+  //     if (!info) {
+  //       return {
+  //         code: 50008,
+  //         message: 'Login failed, unable to get user details.'
+  //       }
+  //     }
+
+  //     return {
+  //       code: 20000,
+  //       data: info
+  //     }
+  //   }
+  // },
+  {
+    url: '/users/getUserInfo',
+    type: 'post',
+    response: config => {
+      return {
+        code: 20000,
+        data: {
+          userId: 1,
+          id: 'SY2221110',
+          name: '田震',
+          department: '软件学院',
+          phone: '15936022797',
+          roles: ['student', 'teacher'],
+          permission: {
+            menus: [
+              'apply',
+              'myApply',
+              'applyLeaveSchool'
+            ],
+            points: []
+          }
+        }
+      }
+    }
+  },
   // user logout
   {
     url: '/vue-admin-template/user/logout',
