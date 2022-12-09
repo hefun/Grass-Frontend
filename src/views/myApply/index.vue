@@ -219,10 +219,21 @@ export default {
       },
       temp: {
         id: 0,
-        startTime: new Date(),
-        endTime: new Date(),
+        from_id: 0,
+        student_id: store.getters.id,
+        from_name: store.getters.name,
+        department: store.getters.department,
+        phone: store.getters.phone,
+        to_id: 0,
+        to_name: '',
+        from_time: '',
+        to_time: '',
+        startTime: '',
+        endTime: '',
         destination: '',
-        reason: ''
+        reason: '',
+        comment: '',
+        status: 0
       }
     }
   },
@@ -238,16 +249,24 @@ export default {
       })
       this.listLoading = false
     },
-    handelFilter() {
+    handleFilter() {
       this.listQuery.page = 1
       this.getList()
     },
     handleUpdate(row) {
       this.temp.id = row.id
+      this.temp.from_id = row.from_id
+      this.temp.to_id = row.to_id
+      this.temp.from_time = row.from_time
+      this.to_time = row.to_time
+      /** 这里startTime, endTime可能要修改，所以暂时不是字符串 */
       this.temp.startTime = new Date(Date.parse(row.start_time))
       this.temp.endTime = new Date(Date.parse(row.end_time))
       this.temp.destination = row.destination
       this.temp.reason = row.reason
+      this.temp.comment = row.comment
+      this.temp.status = row.status
+
       this.dialogFormVisible = true
       this.$nextTick(() => {
         this.$refs['dataForm'].clearValidate()
@@ -256,14 +275,9 @@ export default {
     updateData() {
       this.$refs['dataForm'].validate((valid) => {
         if (valid) {
-          const tempData = {
-            from_id: store.getters.userId,
-            apply_id: this.temp.id,
-            start_time: this.temp.startTime,
-            end_time: this.temp.endTime,
-            destination: this.temp.destination,
-            reason: this.temp.reason
-          }
+          this.temp.startTime = this.temp.startTime.toLocaleString()
+          this.temp.endTime = this.temp.endTime.toLocaleString()
+          const tempData = this.temp
           updateApply(tempData).then(response => {
             const index = this.list.findIndex(v => v.id === this.temp.id)
             this.list.splice(index, 1, response.data)

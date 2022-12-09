@@ -49,6 +49,7 @@
             <el-checkbox label="apply">出入校申请</el-checkbox>
             <el-checkbox label="review">出入校审批</el-checkbox>
             <el-checkbox label="manage">权限管理</el-checkbox>
+            <el-checkbox label="dev">后台管理</el-checkbox>
           </el-checkbox-group>
         </el-form-item>
       </el-form>
@@ -131,7 +132,13 @@ export default {
     async confirmRole() {
       const isEdit = this.dialogType === 'edit'
       if (isEdit) {
-        await updateRole(this.role.id, this.role)
+        const temp = {
+          id: this.role.id,
+          name: this.role.name,
+          description: this.role.description,
+          permission: this.checkList
+        }
+        await updateRole(this.role.id, temp)
         for (let index = 0; index < this.rolesList.length; index++) {
           if (this.rolesList[index].id === this.role.id) {
             this.rolesList.splice(index, 1, Object.assign({}, this.role))
@@ -139,7 +146,14 @@ export default {
           }
         }
       } else {
-        const { data } = await addRole(this.role)
+        const tempDate = {
+          id: undefined,
+          name: this.role.name,
+          description: this.role.description,
+          permission: this.checkList
+        }
+        const data = await addRole(tempDate) // TODO: 待测试
+        console.log(data)
         this.role.id = data.id
         this.rolesList.push(this.role)
       }
