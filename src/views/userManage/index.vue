@@ -142,7 +142,7 @@
 <script>
 import waves from '@/directive/waves'
 import Pagination from '@/components/Pagination'
-import { getUsers, updateUser, deleteUser, getTeachers, updateUserRole } from '@/api/user'
+import { getUsers, updateUser, deleteUser, getTeachers } from '@/api/user'
 import { getRoles } from '@/api/role'
 export default {
   name: 'UserManage',
@@ -284,16 +284,19 @@ export default {
       this.getRoles()
       this.checkList = row.roles
       this.temp.userId = row.userId
+      this.temp.id = row.id
+      this.temp.name = row.name
+      this.temp.department = row.department
+      this.temp.phone = row.phone
+      this.temp.to_id = row.to_id
+      this.temp.to_name = row.to_name
       this.dialogRoleFormVisible = true
     },
 
     // 在角色弹窗点击确认后发生
     updateRole() {
-      const tempData = {
-        userId: this.temp.userId,
-        roles: this.checkList
-      }
-      updateUserRole(tempData).then(() => {
+      this.temp.roles = this.checkList
+      updateUser(this.temp).then(() => {
         this.getList()
         this.dialogFormVisible = false
         this.$notify({
