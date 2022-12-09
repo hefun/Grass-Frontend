@@ -79,7 +79,7 @@
           <!--el-button v-if="row.status!='draft'" size="mini" @click="handleModifyStatus(row,'draft')">
               Draft
             </el-button-->
-          <el-button size="mini" type="info" @click="handleDelete(row,$index)">
+          <el-button size="mini" type="info" @click="changeRole(row,$index)">
             角色
           </el-button>
           <el-button size="mini" type="danger" @click="handleDelete(row,$index)">
