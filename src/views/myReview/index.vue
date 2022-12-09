@@ -173,6 +173,7 @@ export default {
       listLoading: true,
       statusOptions: ['未审批', '审批通过', '审批驳回'],
       listQuery: {
+        to_id: store.getters.userId,
         page: 1,
         limit: 10,
         sort: '-time' // 按申请时间倒序排列
