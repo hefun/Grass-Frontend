@@ -128,7 +128,7 @@
         <el-checkbox :v-for="role in rolesList" :label="role.name" />
       </el-checkbox-group>
       <div slot="footer" class="dialog-footer">
-        <el-button @click="dialogFormVisible = false">
+        <el-button @click="dialogRoleFormVisible = false">
           取消
         </el-button>
         <el-button type="primary" @click="updateRole()">
