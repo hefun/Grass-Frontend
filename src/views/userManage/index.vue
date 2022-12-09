@@ -125,7 +125,7 @@
     <!--配置用户角色-->
     <el-dialog :title="role" :visible.sync="dialogRoleFormVisible">
       <el-checkbox-group v-model="checkList">
-        <el-checkbox :v-for="role in rolesList" :label="role.name" />
+        <el-checkbox :v-for="role in rolesList" :label="role.name"> {{ role.name }}</el-checkbox>
       </el-checkbox-group>
       <div slot="footer" class="dialog-footer">
         <el-button @click="dialogRoleFormVisible = false">
@@ -237,8 +237,17 @@ export default {
     },
 
     // 点击新增用户后发生的弹窗等动作
-    handleCreate(row) {
+    handleCreate() {
       this.dialogFormVisible = true
+      this.temp.userId = undefined
+      this.temp.id = ''
+      this.temp.name = ''
+      this.temp.department = ''
+      this.temp.phone = ''
+      this.temp.to_id = ''
+      this.temp.to_name = ''
+      this.temp.roles = []
+
       this.$nextTick(() => {
         this.$refs['dataForm'].clearValidate()
       })
@@ -250,8 +259,9 @@ export default {
         if (valid) {
           const tempData = this.temp
           updateUser(tempData).then(() => {
-            const index = this.list.findIndex(v => v.id === this.temp.id)
-            this.list.splice(index, 1, this.temp)
+            // const index = this.list.findIndex(v => v.id === this.temp.id)
+            // this.list.splice(index, 1, this.temp)
+            this.getList()
             this.dialogFormVisible = false
             this.$notify({
               title: 'Success',
@@ -277,9 +287,12 @@ export default {
       })
     },
 
-    async getRoles() {
-      const res = await getRoles()
-      this.rolesList = res.data
+    getRoles() {
+      getRoles().then(response => {
+        this.rolesList = response.data
+        console.log('rolesList')
+        console.log(this.rolesList)
+      })
     },
 
     // 点击角色按钮后发生的动作
