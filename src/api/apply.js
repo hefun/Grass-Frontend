@@ -28,7 +28,7 @@ export function updateApply(data) {
 
 export function deleteApply(data) {
   return request({
-    url: '/apply/delete',
+    url: '/apply/deleteApply',
     method: 'post',
     data
   })
