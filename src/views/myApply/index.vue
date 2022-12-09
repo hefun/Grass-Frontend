@@ -36,32 +36,32 @@
       highlight-current-row
       style="width: 100%;"
     >
-      <el-table-column label="序号" prop="id" align="center">
+      <el-table-column label="序号" prop="id">
         <template slot-scope="{row}">
           <span>{{ row.id }}</span>
         </template>
       </el-table-column>
-      <el-table-column label="申请提交时间" align="center">
+      <el-table-column label="申请提交时间">
         <template slot-scope="{row}">
           <span>{{ row.from_time }}</span>
         </template>
       </el-table-column>
-      <el-table-column label="申请开始时间" align="center">
+      <el-table-column label="申请开始时间">
         <template slot-scope="{row}">
           <span>{{ row.start_time }}</span>
         </template>
       </el-table-column>
-      <el-table-column label="申请结束时间" align="center">
+      <el-table-column label="申请结束时间">
         <template slot-scope="{row}">
           <span>{{ row.end_time }}</span>
         </template>
       </el-table-column>
-      <el-table-column label="详细事由" align="center">
+      <el-table-column label="详细事由">
         <template slot-scope="{row}">
           <span>{{ row.reason }}</span>
         </template>
       </el-table-column>
-      <el-table-column label="详细行程" align="center">
+      <el-table-column label="详细行程">
         <template slot-scope="{row}">
           <span>{{ row.destination }}</span>
         </template>
@@ -79,15 +79,19 @@
           </el-tag>
         </template>
       </el-table-column>
-      <el-table-column label="审批意见" align="center">
-        <template v-if="(row.status === 0)" slot-scope="{row}">
-          <span>暂无审批意见</span>
-        </template>
-        <template v-else slot-scope="{row}">
-          <span>{{ row.comments }}</span>
+      <el-table-column label="审批人">
+        <template slot-scope="{row}">
+          <span v-if="row.status === 0" style="color: lightgray">待审批</span>
+          <span v-else>{{ row.to_name }}</span>
         </template>
       </el-table-column>
-      <el-table-column label="操作" align="center" class-name="small-padding fixed-width">
+      <el-table-column label="审批意见">
+        <template slot-scope="{row}">
+          <span v-if="row.status === 0" style="color: lightgray">暂无审批意见</span>
+          <span v-else>{{ row.comment }}</span>
+        </template>
+      </el-table-column>
+      <el-table-column label="操作" align="center" width="150" class-name="small-padding fixed-width">
         <template slot-scope="{row,$index}">
           <el-button type="primary" size="mini" @click="handleUpdate(row)">
             编辑

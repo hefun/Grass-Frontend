@@ -14,7 +14,8 @@ for (let i = 0; i < count; i++) {
     end_time: Mock.Random.datetime('yyyy/MM/dd HH:mm:ss'),
     reason: '@cword(5, 10)',
     destination: '@cword(2, 20)',
-    comment: '',
+    to_name: '@cname',
+    comment: '@cword(2, 10)',
     'status|1': [0, 1, 2]
   }))
 }
