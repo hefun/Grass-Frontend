@@ -55,3 +55,10 @@ export function getTeachers(data) {
   })
 }
 
+export function updateUserRole(data) {
+  return request({
+    url: '/users/updateUserRole',
+    method: 'post',
+    data
+  })
+}

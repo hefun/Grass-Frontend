@@ -26,6 +26,9 @@
       <el-select v-model="listQuery.sort" style="width:15em" class="fileter-item" @change="handleFilter">
         <el-option v-for="item in sortOptions" :key="item.key" :label="item.label" :value="item.key" />
       </el-select>
+      <el-button class="filter-item" style="margin-left: 10px;" type="primary" icon="el-icon-edit" @click="handleCreate">
+        新增用户
+      </el-button>
     </div>
 
     <el-table
@@ -77,7 +80,7 @@
           <el-button type="primary" size="mini" @click="handleUpdate(row)">
             编辑
           </el-button>
-          <el-button size="mini" type="info" @click="changeRole(row,$index)">
+          <el-button size="mini" type="info" @click="handleChangeRole(row)">
             角色
           </el-button>
           <el-button size="mini" type="danger" @click="handleDelete(row,$index)">
@@ -89,7 +92,7 @@
 
     <pagination v-show="total>0" :total="total" :page.sync="listQuery.page" :limit.sync="listQuery.limit" @pagination="getList" />
 
-    <el-dialog :title="编辑信息" :visible.sync="dialogFormVisible">
+    <el-dialog :title="用户信息" :visible.sync="dialogFormVisible">
       <el-form ref="dataForm" :rules="rules" :model="temp" label-position="left">
         <el-form-item label="学工号">
           <el-input v-model="temp.id" />
@@ -118,14 +121,29 @@
         </el-button>
       </div>
     </el-dialog>
+
+    <!--配置用户角色-->
+    <el-dialog :title="用户角色" :visible.sync="dialogRoleFormVisible">
+      <el-checkbox-group v-model="checkList">
+        <el-checkbox :v-for="role in rolesList" :label="role.name" />
+      </el-checkbox-group>
+      <div slot="footer" class="dialog-footer">
+        <el-button @click="dialogFormVisible = false">
+          取消
+        </el-button>
+        <el-button type="primary" @click="updateRole()">
+          确认
+        </el-button>
+      </div>
+    </el-dialog>
   </div>
 </template>
 
 <script>
 import waves from '@/directive/waves'
 import Pagination from '@/components/Pagination'
-import { getUsers, updateUser, deleteUser, getTeachers } from '@/api/user'
-
+import { getUsers, updateUser, deleteUser, getTeachers, updateUserRole } from '@/api/user'
+import { getRoles } from '@/api/role'
 export default {
   name: 'UserManage',
   components: { Pagination },
@@ -157,7 +175,7 @@ export default {
       dialogFormVisible: false, // 用户信息编辑的弹窗是否显示
       dialogRoleFormVisible: false, // 用户角色配置的弹窗是否显示
       temp: {
-        userId: '',
+        userId: undefined,
         id: '',
         name: '',
         department: '',
@@ -167,7 +185,9 @@ export default {
         roles: []
       },
       rules: {},
-      teachers: []
+      teachers: [],
+      rolesList: [],
+      checkList: []
     }
   },
   created() {
@@ -183,8 +203,8 @@ export default {
       })
       this.listLoading = false
     },
-    getTeachers() {
-      getTeachers({}).then(response => {
+    getTeachers(row) {
+      getTeachers({ department: row.department }).then(response => {
         this.teachers = response.data
       })
     },
@@ -204,6 +224,16 @@ export default {
       this.temp.to_name = row.to_name
       this.temp.roles = row.roles
 
+      this.getTeachers(row)
+
+      this.dialogFormVisible = true
+      this.$nextTick(() => {
+        this.$refs['dataForm'].clearValidate()
+      })
+    },
+
+    // 点击新增用户后发生的弹窗等动作
+    handleCreate(row) {
       this.dialogFormVisible = true
       this.$nextTick(() => {
         this.$refs['dataForm'].clearValidate()
@@ -240,6 +270,38 @@ export default {
           duration: 1000
         })
         this.getList()
+      })
+    },
+
+    async getRoles() {
+      const res = await getRoles()
+      this.rolesList = res.data
+    },
+
+    // 点击角色按钮后发生的动作
+    handleChangeRole(row) {
+      // 获取角色列表、将当前用户的row赋给checklist、打开弹窗
+      this.getRoles()
+      this.checkList = row.roles
+      this.temp.userId = row.userId
+      this.dialogRoleFormVisible = true
+    },
+
+    // 在角色弹窗点击确认后发生
+    updateRole() {
+      const tempData = {
+        userId: this.temp.userId,
+        roles: this.checkList
+      }
+      updateUserRole(tempData).then(() => {
+        this.getList()
+        this.dialogFormVisible = false
+        this.$notify({
+          title: 'Success',
+          message: '信息修改成功',
+          type: 'success',
+          duration: 1000
+        })
       })
     }
   }
