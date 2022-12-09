@@ -13,8 +13,7 @@ const name = defaultSettings.title || 'vue Admin Template' // page title
 // For example, Mac: sudo npm run
 // You can change the port by the following methods:
 // port = 9528 npm run dev OR npm run dev --port = 9528
-const port = process.env.port || process.env.npm_config_port || 9528 // dev port
-
+// const port = process.env.port || process.env.npm_config_port || 9528 // dev port
 // All configuration item explanations can be find in https://cli.vuejs.org/config/
 module.exports = {
   /**
@@ -29,14 +28,41 @@ module.exports = {
   assetsDir: 'static',
   lintOnSave: process.env.NODE_ENV === 'development',
   productionSourceMap: false,
+  // devServer: {
+  //   port: port,
+  //   open: true,
+  //   overlay: {
+  //     warnings: false,
+  //     errors: true
+  //   },
+  //   before: require('./mock/mock-server.js')
+  // },
   devServer: {
-    port: port,
-    open: true,
-    overlay: {
-      warnings: false,
-      errors: true
-    },
-    before: require('./mock/mock-server.js')
+    host: 'localhost',
+    port: 9528,
+    proxy: {
+      '/users': {
+        target: 'http://localhost:10008',
+        secure: false,
+        changeOrigin: true
+      },
+      '/apply': {
+        target: 'http://localhost:10008',
+        secure: false,
+        changeOrigin: true
+      },
+      '/review': {
+        target: 'http://localhost:10008',
+        secure: false,
+        changeOrigin: true
+      },
+      '/manage': {
+        target: 'http://localhost:10008',
+        secure: false,
+        changeOrigin: true
+      }
+    }
+
   },
   configureWebpack: {
     // provide the app's title in webpack's name field, so that
