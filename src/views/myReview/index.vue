@@ -14,7 +14,7 @@
       fit
       highlight-current-row
       style="width: 100%;"
-      :default-sort = "{prop: 'from_time', order: 'ascending'}"
+      :default-sort="{prop: 'from_time', order: 'ascending'}"
     >
       <el-table-column label="序号" prop="id">
         <template slot-scope="{row}">
@@ -45,7 +45,8 @@
         prop="from_time"
         sortable
         :sort-orders="['ascending', 'descending', '']"
-        label="申请提交时间">
+        label="申请提交时间"
+      >
         <template slot-scope="{row}">
           <span>{{ row.from_time }}</span>
         </template>
@@ -78,7 +79,8 @@
                    { text: '已通过', value: 1 },
                    { text: '已驳回', value: 2 }]"
         :filter-method="filterStatus"
-        filter-placement="bottom-end">
+        filter-placement="bottom-end"
+      >
         <template slot-scope="{row}">
           <el-tag v-if="(row.status===0)" :type="row.status | statusFilter">
             待审批
@@ -116,7 +118,7 @@
     <el-dialog :title="出校申请审批" :visible.sync="dialogFormVisible">
       <el-descriptions title="出校申请审批" :column="1" border :data="dialog">
         <el-descriptions-item label="姓名">{{ dialog.from_name }}</el-descriptions-item>
-        <el-descriptions-item label="学号">{{ dialog.student_id}}</el-descriptions-item>
+        <el-descriptions-item label="学号">{{ dialog.student_id }}</el-descriptions-item>
         <el-descriptions-item label="院系">{{ dialog.department }}</el-descriptions-item>
         <el-descriptions-item label="联系方式">{{ dialog.phone }}</el-descriptions-item>
         <el-descriptions-item label="详细事由">{{ dialog.reason }}</el-descriptions-item>
@@ -131,7 +133,7 @@
       </el-descriptions>
       <div style="margin:20px 0 0 0">
         <p style="font-weight: bold">审批意见</p>
-        <el-input v-model="dialog.comment" placeholder="请输入内容"></el-input>
+        <el-input v-model="dialog.comment" placeholder="请输入内容" />
       </div>
       <div slot="footer" class="dialog-footer">
         <el-button @click="dialogFormVisible = false">
