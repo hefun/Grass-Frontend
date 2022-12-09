@@ -8,3 +8,11 @@ export function fetchMyReview(query) {
     params: query
   })
 }
+
+export function updateReview(data) {
+  return request({
+    url: '/apply/approval',
+    method: 'post',
+    data
+  })
+}
