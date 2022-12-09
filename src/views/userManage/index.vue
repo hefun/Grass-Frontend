@@ -151,7 +151,7 @@ export default {
   data() {
     return {
       tableKey: 0,
-      list: null, // 用户信息的列表
+      list: [], // 用户信息的列表
       total: 0,
       listLoading: true,
       listQuery: {
@@ -199,7 +199,11 @@ export default {
       this.listLoading = true
       getUsers(this.listQuery).then(response => {
         this.list = response.data.userList
+        console.log('userManage, 202')
+        console.log(this.list)
         this.total = response.data.total
+        console.log('userManage, 205')
+        console.log(this.total)
       })
       this.listLoading = false
     },
