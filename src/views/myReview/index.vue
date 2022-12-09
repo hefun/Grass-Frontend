@@ -218,8 +218,8 @@ export default {
     getList() {
       this.listLoading = true
       fetchMyReview(this.listQuery).then(response => {
-        this.list = response.data // TODO: 待测试
-        this.total = response.total // TODO: 要改接口，可能是分页展示要用
+        this.list = response.data.applyList // TODO: 待测试
+        this.total = response.data.total // TODO: 要改接口，可能是分页展示要用
       })
       this.listLoading = false
     },
