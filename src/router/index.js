@@ -27,6 +27,7 @@ import Layout from '@/layout'
 import Apply from './modules/Apply'
 import Review from './modules/Review'
 import Manage from './modules/Manage'
+import Dev from './modules/Dev'
 import store from '@/store'
 /**
  * priviteRoutes
@@ -34,7 +35,8 @@ import store from '@/store'
 export const privateRoutes = [
   Apply,
   Review,
-  Manage
+  Manage,
+  Dev
 ]
 
 /**
@@ -63,7 +65,7 @@ export const publicRoutes = [
       path: 'dashboard',
       name: 'Dashboard',
       component: () => import('@/views/dashboard/index'),
-      meta: { title: 'Dashboard', icon: 'dashboard' }
+      meta: { title: 'Dashboard', icon: 'home' }
     }]
   }
 

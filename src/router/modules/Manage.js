@@ -12,7 +12,7 @@ export default {
   redirect: '/manage/usermanage',
   meta: {
     title: '权限管理',
-    icon: 'dashboard'
+    icon: 'auth'
   },
   children: [
     {
@@ -21,7 +21,7 @@ export default {
       component: () => import('@/views/userManage/index'),
       meta: {
         title: '用户管理',
-        icon: 'dashboard'
+        icon: 'user'
       }
     },
     {
@@ -30,7 +30,7 @@ export default {
       component: () => import('@/views/roleManage/index'),
       meta: {
         title: '角色管理',
-        icon: 'dashboard'
+        icon: 'role'
       }
     }
   ]
