@@ -20,7 +20,7 @@ export function fetchMyApply(query) {
 
 export function updateApply(data) {
   return request({
-    url: '/apply/update',
+    url: '/apply/approval',
     method: 'post',
     data
   })
