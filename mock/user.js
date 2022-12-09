@@ -98,6 +98,7 @@ module.exports = [
           permission: {
             menus: [
               'apply',
+              'review',
               'manage'
             ],
             points: []

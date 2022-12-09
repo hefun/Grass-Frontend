@@ -25,6 +25,7 @@ import Layout from '@/layout'
   }
  */
 import Apply from './modules/Apply'
+import Review from './modules/Review'
 import Manage from './modules/Manage'
 import store from '@/store'
 /**
@@ -32,6 +33,7 @@ import store from '@/store'
  */
 export const privateRoutes = [
   Apply,
+  Review,
   Manage
 ]
 
@@ -63,38 +65,38 @@ export const publicRoutes = [
       component: () => import('@/views/dashboard/index'),
       meta: { title: 'Dashboard', icon: 'dashboard' }
     }]
-  },
-
-  {
-    path: '/review',
-    component: Layout,
-    redirect: '/review/reviewleaveschool',
-    name: 'review',
-    meta: {
-      title: '出入校审批',
-      icon: 'approval'
-    },
-    children: [
-      {
-        path: '/review/myreview',
-        name: 'myReview',
-        component: () => import('@/views/myReview/index'),
-        meta: {
-          title: '我的审批',
-          icon: 'list'
-        }
-      },
-      {
-        path: '/review/leaveschool',
-        name: 'reviewLeaveSchool',
-        component: () => import('@/views/reviewLeaveSchool/index'),
-        meta: {
-          title: '出校审批',
-          icon: 'form'
-        }
-      }
-    ]
   }
+
+  // {
+  //   path: '/review',
+  //   component: Layout,
+  //   redirect: '/review/myreview',
+  //   name: 'review',
+  //   meta: {
+  //     title: '出入校审批',
+  //     icon: 'approval'
+  //   },
+  //   children: [
+  //     {
+  //       path: '/review/myreview',
+  //       name: 'myReview',
+  //       component: () => import('@/views/myReview/index'),
+  //       meta: {
+  //         title: '我的审批',
+  //         icon: 'list'
+  //       }
+  //     },
+  //     {
+  //       path: '/review/leaveschool',
+  //       name: 'reviewLeaveSchool',
+  //       component: () => import('@/views/reviewLeaveSchool/index'),
+  //       meta: {
+  //         title: '出校审批',
+  //         icon: 'form'
+  //       }
+  //     }
+  //   ]
+  // }
 
   // {
   //   path: '/example',
