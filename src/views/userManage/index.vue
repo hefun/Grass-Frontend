@@ -22,11 +22,11 @@
         </el-checkbox>
       </div-->
 
-    <div class="filter-container">
-      <el-select v-model="listQuery.sort" style="width:15em" class="fileter-item" @change="handleFilter">
+    <div>
+      <el-select v-model="listQuery.sort" style="width:15em" @change="handleFilter">
         <el-option v-for="item in sortOptions" :key="item.key" :label="item.label" :value="item.key" />
       </el-select>
-      <el-button class="filter-item" style="margin-left: 10px;" type="primary" icon="el-icon-edit" @click="handleCreate">
+      <el-button style="margin-left: 10px;" type="primary" icon="el-icon-edit" @click="handleCreate">
         新增用户
       </el-button>
     </div>
@@ -92,7 +92,7 @@
 
     <pagination v-show="total>0" :total="total" :page.sync="listQuery.page" :limit.sync="listQuery.limit" @pagination="getList" />
 
-    <el-dialog :title="用户信息" :visible.sync="dialogFormVisible">
+    <el-dialog :title="info" :visible.sync="dialogFormVisible">
       <el-form ref="dataForm" :rules="rules" :model="temp" label-position="left">
         <el-form-item label="学工号">
           <el-input v-model="temp.id" />
@@ -123,7 +123,7 @@
     </el-dialog>
 
     <!--配置用户角色-->
-    <el-dialog :title="用户角色" :visible.sync="dialogRoleFormVisible">
+    <el-dialog :title="role" :visible.sync="dialogRoleFormVisible">
       <el-checkbox-group v-model="checkList">
         <el-checkbox :v-for="role in rolesList" :label="role.name" />
       </el-checkbox-group>

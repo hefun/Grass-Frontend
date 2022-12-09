@@ -146,13 +146,13 @@ export default {
           }
         }
       } else {
-        const tempDate = {
-          id: undefined,
+        const tempData = {
+          id: 0,
           name: this.role.name,
           description: this.role.description,
           permission: this.checkList
         }
-        const data = await addRole(tempDate) // TODO: 待测试
+        const data = await addRole(tempData) // TODO: 待测试
         console.log(data)
         this.role.id = data.id
         this.rolesList.push(this.role)
