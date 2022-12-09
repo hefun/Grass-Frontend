@@ -80,13 +80,20 @@ const actions = {
   getInfo({ commit, state }) {
     return new Promise((resolve, reject) => {
       getInfo(state.id).then(response => {
-        const { data } = response.data
+        const  data  = response.data
+        console.log(data)
+        console.log(!data)
 
         if (!data) {
           return reject('Verification failed, please Login again.')
         }
 
-        const { name, department, phone, roles, permission } = data
+        // const { name, department, phone, roles, permission } = data
+        const name = data.user.username
+        const department = data.user.department
+        const phone = data.user.phone
+        const roles = data.user.roles
+        const permission = data.permission
 
         commit('SET_NAME', name)
         commit('SET_DEPARTMENT', department)
