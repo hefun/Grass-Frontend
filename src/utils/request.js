@@ -47,7 +47,7 @@ service.interceptors.response.use(
     console.log(response.data)
     const res = response.data
 
-    if (response.status !== 1) {
+    if (res.status !== 1) {
       Message({
         message: res.message || 'Error',
         type: 'error',
@@ -55,7 +55,7 @@ service.interceptors.response.use(
       })
 
       // 50008: Illegal token; 50012: Other clients logged in; 50014: Token expired;
-      if (response.status !== 1) {
+      if (res.status !== 1) {
         // to re-login
         MessageBox.confirm('You have been logged out, you can cancel to stay on this page, or log in again', 'Confirm logout', {
           confirmButtonText: 'Re-Login',
