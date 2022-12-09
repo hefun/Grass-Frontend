@@ -98,8 +98,7 @@ module.exports = [
           permission: {
             menus: [
               'apply',
-              'myApply',
-              'applyLeaveSchool'
+              'manage'
             ],
             points: []
           }

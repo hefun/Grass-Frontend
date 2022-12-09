@@ -61,8 +61,10 @@ const actions = {
   login({ commit }, userInfo) {
     const { username, password } = userInfo
     return new Promise((resolve, reject) => {
+      console.log('sfjsogasdga')
       login({ username: username.trim(), password: password }).then(response => {
         const { data } = response
+        console.log(data)
         commit('SET_TOKEN', data.token)
         commit('SET_USERID', data.userId)
         commit('SET_ID', data.id)
@@ -77,6 +79,7 @@ const actions = {
   // get user info
   getInfo({ commit, state }) {
     return new Promise((resolve, reject) => {
+      console.log('sfsfsf')
       getInfo({ id: state.id }).then(response => {
         const { data } = response
 

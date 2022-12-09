@@ -24,21 +24,23 @@ import Layout from '@/layout'
     activeMenu: '/example/list'  if set path, the sidebar will highlight the path you set
   }
  */
-// import ApplyLeaveSchool from './modules/ApplyLeaveSchool'
-
+import Apply from './modules/Apply'
+import Manage from './modules/Manage'
+import store from '@/store'
 /**
  * priviteRoutes
  */
-// export const privateRoutes = [
-//   ApplyLeaveSchool
-// ]
+export const privateRoutes = [
+  Apply,
+  Manage
+]
 
 /**
  * publicRoutes
  * a base page that does not have permission requirements
  * all roles can be accessed
  */
-const publicRoutes = [
+export const publicRoutes = [
   {
     path: '/login',
     component: () => import('@/views/login/index'),
@@ -61,37 +63,6 @@ const publicRoutes = [
       component: () => import('@/views/dashboard/index'),
       meta: { title: 'Dashboard', icon: 'dashboard' }
     }]
-  },
-
-  {
-    path: '/apply',
-    component: Layout,
-    redirect: '/apply/myapply',
-    name: 'apply',
-    meta: {
-      title: '出入校申请',
-      icon: 'guide'
-    },
-    children: [
-      {
-        path: '/apply/myapply',
-        name: 'myApply',
-        component: () => import('@/views/myApply/index'),
-        meta: {
-          title: '我的申请',
-          icon: 'list'
-        }
-      },
-      {
-        path: '/apply/leaveschool',
-        name: 'applyLeaveSchool',
-        component: () => import('@/views/applyLeaveSchool/index'),
-        meta: {
-          title: '出校申请',
-          icon: 'form'
-        }
-      }
-    ]
   },
 
   {
@@ -123,41 +94,7 @@ const publicRoutes = [
         }
       }
     ]
-  },
-  /**
-   * 这里需要考虑添加申请管理、审批管理的功能，单独的两个或一个页面
-   */
-
-  {
-    path: '/manage',
-    component: Layout,
-    redirect: '/manage/usermanage',
-    name: 'manage',
-    meta: {
-      title: '权限管理',
-      icon: 'dashboard'
-    },
-    children: [
-      {
-        path: '/manage/usermanage',
-        name: 'userManage',
-        component: () => import('@/views/userManage/index'),
-        meta: {
-          title: '用户管理',
-          icon: 'dashboard'
-        }
-      },
-      {
-        path: '/manage/rolemanage',
-        name: 'roleManage',
-        component: () => import('@/views/roleManage/index'),
-        meta: {
-          title: '角色管理',
-          icon: 'dashboard'
-        }
-      }
-    ]
-  },
+  }
 
   // {
   //   path: '/example',
@@ -254,7 +191,7 @@ const publicRoutes = [
   // },
 
   // 404 page must be placed at the end !!!
-  { path: '*', redirect: '/404', hidden: true }
+  // { path: '*', redirect: '/404', hidden: true }
 ]
 
 const createRouter = () => new Router({
@@ -264,9 +201,17 @@ const createRouter = () => new Router({
 })
 
 const router = createRouter()
-
-// Detail see: https://github.com/vuejs/vue-router/issues/1234#issuecomment-357941465
+console.log(router)
+console.log(router.options.routes)
+// 初始化路由表
 export function resetRouter() {
+  if (store.getters.permission && store.getters.permission.menus) {
+    const size = store.getters.permission.menus.length + 1
+    for (let i = 0; i < size; i++) {
+      console.log(router.options.routes)
+      router.options.routes.pop()
+    }
+  }
   const newRouter = createRouter()
   router.matcher = newRouter.matcher // reset router
 }

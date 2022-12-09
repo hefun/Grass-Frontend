@@ -20,14 +20,18 @@ export default {
      * @param {*} menus 权限数据
      */
     filterRoutes(context, menus) {
+      // 筛选之后，获取到的需要通过addRoute进行添加的路由表数组
       const routes = []
-
       menus.forEach(key => {
         routes.push(...privateRoutes.filter(item => item.name === key))
       })
+
       // 所有不匹配的路由，全部进入404
       // 该配置必须再所有路由指定之后
-      routes.push({ path: '*', redirect: '/404', hidden: true })
+      routes.push({
+        path: '/:catchAll(.*)',
+        redirect: '/404'
+      })
 
       context.commit('setRoutes', routes)
 
