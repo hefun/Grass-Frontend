@@ -36,7 +36,7 @@
           <span>{{ row.userId }}</span>
         </template>
       </el-table-column>
-      <el-table-column label="学号" align="center">
+      <el-table-column label="学工号" align="center">
         <template slot-scope="{row}">
           <span>{{ row.id }}</span>
         </template>
@@ -79,6 +79,9 @@
           <!--el-button v-if="row.status!='draft'" size="mini" @click="handleModifyStatus(row,'draft')">
               Draft
             </el-button-->
+          <el-button size="mini" type="info" @click="handleDelete(row,$index)">
+            角色
+          </el-button>
           <el-button size="mini" type="danger" @click="handleDelete(row,$index)">
             删除
           </el-button>

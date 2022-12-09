@@ -227,8 +227,8 @@ export default {
     getList() {
       this.listLoading = true
       fetchMyApply(this.listQuery).then(response => {
-        this.list = response.data
-        this.total = response.total
+        this.list = response.data.applyList
+        this.total = response.data.total
       })
       this.listLoading = false
     },

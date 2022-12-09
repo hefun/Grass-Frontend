@@ -3,9 +3,9 @@
     <el-button type="primary" @click="handleAddRole">新建角色</el-button>
 
     <el-table :data="rolesList" style="width: 100%;margin-top:30px;" border>
-      <el-table-column align="center" label="角色键值" width="220">
+      <el-table-column align="center" label="序号" width="220">
         <template slot-scope="scope">
-          {{ scope.row.key }}
+          {{ scope.row.id }}
         </template>
       </el-table-column>
       <el-table-column align="center" label="角色名称" width="220">
@@ -65,7 +65,7 @@ import { deepClone } from '@/utils'
 import { getRoutes, getRoles, addRole, deleteRole, updateRole } from '@/api/role'
 
 const defaultRole = {
-  key: '',
+  id: 0,
   name: '',
   description: '',
   routes: []
