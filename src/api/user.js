@@ -12,7 +12,9 @@ export function getInfo(id) {
   return request({
     url: '/users/getUserInfo',
     method: 'get',
-    params: id
+    params: {
+      id: id
+    }
   })
 }
 
