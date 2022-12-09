@@ -204,7 +204,7 @@ export default {
       this.listLoading = false
     },
     getTeachers(row) {
-      getTeachers({ department: row.department }).then(response => {
+      getTeachers(row.department).then(response => {
         this.teachers = response.data
       })
     },
@@ -262,7 +262,7 @@ export default {
 
     // 删除用户信息
     handleDelete(row, index) {
-      deleteUser({ userId: row.userId }).then(() => {
+      deleteUser(row.userId).then(() => {
         this.$notify({
           title: 'Success',
           message: '删除成功',

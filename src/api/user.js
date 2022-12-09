@@ -8,11 +8,11 @@ export function login(data) {
   })
 }
 
-export function getInfo(data) {
+export function getInfo(id) {
   return request({
     url: '/users/getUserInfo',
-    method: 'post',
-    data
+    method: 'get',
+    params: id
   })
 }
 
@@ -39,19 +39,18 @@ export function updateUser(data) {
   })
 }
 
-export function deleteUser(data) {
+export function deleteUser(userId) {
   return request({
-    url: '/users/deleteUser',
-    method: 'post',
-    data
+    url: `/users/deleteUser/${userId}`,
+    method: 'delete'
   })
 }
 
-export function getTeachers(data) {
+export function getTeachers(department) {
   return request({
     url: '/users/getTeachers',
-    method: 'post',
-    data
+    method: 'get',
+    params: department
   })
 }
 
