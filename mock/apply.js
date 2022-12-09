@@ -54,8 +54,10 @@ module.exports = [
 
       return {
         code: 20000,
-        data: pageList,
-        total: List.length
+        data: {
+          total: List.length,
+          applyList: pageList
+        }
       }
     }
 
