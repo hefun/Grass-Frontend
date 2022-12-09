@@ -101,7 +101,7 @@ const publicRoutes = [
     name: 'review',
     meta: {
       title: '出入校审批',
-      icon: 'dashboard'
+      icon: 'approval'
     },
     children: [
       {
@@ -110,7 +110,7 @@ const publicRoutes = [
         component: () => import('@/views/myReview/index'),
         meta: {
           title: '我的审批',
-          icon: 'dashboard'
+          icon: 'list'
         }
       },
       {
@@ -119,7 +119,7 @@ const publicRoutes = [
         component: () => import('@/views/reviewLeaveSchool/index'),
         meta: {
           title: '出校审批',
-          icon: 'dashboard'
+          icon: 'form'
         }
       }
     ]
