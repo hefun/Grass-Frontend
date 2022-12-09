@@ -153,7 +153,7 @@ export default {
           description: this.role.description,
           permissions: this.checkList
         }
-        const data = await addRole(tempData) // TODO: 待测试
+        await addRole(tempData) // TODO: 待测试
         // console.log(data)
         // this.role.id = data.id
         // this.rolesList.push(this.role)
