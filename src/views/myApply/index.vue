@@ -279,7 +279,7 @@ export default {
       })
     },
     handleDelete(row, index) {
-      deleteApply({ form_id: store.getters.userId, apply_id: row.id }).then(() => {
+      deleteApply({ id: row.id }).then(() => {
         this.$notify({
           title: 'Success',
           message: '删除成功',
