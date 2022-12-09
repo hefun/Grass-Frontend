@@ -249,7 +249,7 @@ export default {
       })
       this.listLoading = false
     },
-    handelFilter() {
+    handleFilter() {
       this.listQuery.page = 1
       this.getList()
     },
