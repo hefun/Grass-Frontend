@@ -136,26 +136,28 @@ export default {
           id: this.role.id,
           name: this.role.name,
           description: this.role.description,
-          permission: this.checkList
+          permissions: this.checkList
         }
         await updateRole(this.role.id, temp)
-        for (let index = 0; index < this.rolesList.length; index++) {
-          if (this.rolesList[index].id === this.role.id) {
-            this.rolesList.splice(index, 1, Object.assign({}, this.role))
-            break
-          }
-        }
+        // for (let index = 0; index < this.rolesList.length; index++) {
+        //   if (this.rolesList[index].id === this.role.id) {
+        //     this.rolesList.splice(index, 1, Object.assign({}, this.role))
+        //     break
+        //   }
+        // }
+        this.getRoles()
       } else {
         const tempData = {
           id: 0,
           name: this.role.name,
           description: this.role.description,
-          permission: this.checkList
+          permissions: this.checkList
         }
         const data = await addRole(tempData) // TODO: 待测试
-        console.log(data)
-        this.role.id = data.id
-        this.rolesList.push(this.role)
+        // console.log(data)
+        // this.role.id = data.id
+        // this.rolesList.push(this.role)
+        this.getRoles()
       }
 
       const { description, name } = this.role
