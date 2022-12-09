@@ -124,7 +124,7 @@
 <script>
 import waves from '@/directive/waves'
 import Pagination from '@/components/Pagination'
-import { getUsers, updateUser, deleteUser } from '@/api/user'
+import { getUsers, updateUser, deleteUser, getTeachers } from '@/api/user'
 
 export default {
   name: 'UserManage',
@@ -166,7 +166,8 @@ export default {
         to_name: '',
         roles: []
       },
-      rules: {}
+      rules: {},
+      teachers: []
     }
   },
   created() {
@@ -181,6 +182,11 @@ export default {
         this.total = response.data.total
       })
       this.listLoading = false
+    },
+    getTeachers() {
+      getTeachers({}).then(response => {
+        this.teachers = response.data
+      })
     },
     // 更改排序方式
     handleFilter() {

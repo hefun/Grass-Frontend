@@ -21,7 +21,7 @@
 </template>
 
 <script>
-
+// import sha256 from 'crypto-js/sha256'
 export default {
   name: 'Page404',
   computed: {
@@ -29,6 +29,9 @@ export default {
       return 'The webmaster said that you can not enter this page...'
     }
   }
+  // created() {
+  //   console.log(sha256('123456').toString())
+  // }
 }
 </script>
 

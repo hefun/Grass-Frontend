@@ -46,3 +46,12 @@ export function deleteUser(data) {
     data
   })
 }
+
+export function getTeachers(data) {
+  return request({
+    url: '/users/getTeachers',
+    method: 'post',
+    data
+  })
+}
+
