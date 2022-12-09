@@ -61,7 +61,6 @@ const actions = {
   login({ commit }, userInfo) {
     const { username, password } = userInfo
     return new Promise((resolve, reject) => {
-      console.log('sfjsogasdga')
       login({ username: username.trim(), password: password }).then(response => {
         const { data } = response
         console.log(data)
@@ -109,10 +108,13 @@ const actions = {
   },
 
   // user logout
-  logout({ commit, state }) {
-    removeToken() // must remove  token  first
-    resetRouter()
-    commit('RESET_STATE')
+  logout({ commit }) {
+    return new Promise(resolve => {
+      removeToken() // must remove  token  first
+      resetRouter()
+      commit('RESET_STATE')
+      resolve()
+    })
   },
 
   // remove token

@@ -18,12 +18,12 @@ export function getInfo(id) {
   })
 }
 
-export function logout() {
-  return request({
-    url: '/vue-admin-template/user/logout',
-    method: 'post'
-  })
-}
+// export function logout() {
+//   return request({
+//     url: '/vue-admin-template/user/logout',
+//     method: 'post'
+//   })
+// }
 
 export function getUsers(data) {
   return request({
