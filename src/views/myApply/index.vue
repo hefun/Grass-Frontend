@@ -21,7 +21,7 @@
         reviewer
       </el-checkbox>
     </div-->
-    <div class="filter-container">
+    <div class="filter-container" style="margin:0 0 20px 0">
       <el-select v-model="listQuery.sort" style="width:15em" class="fileter-item" @change="handleFilter">
         <el-option v-for="item in sortOptions" :key="item.key" :label="item.label" :value="item.key" />
       </el-select>

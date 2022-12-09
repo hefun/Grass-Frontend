@@ -8,9 +8,9 @@ for (let i = 0; i < count; i++) {
     id: '@increment',
     from_id: 0,
     to_id: 2,
-    name: '@cname',
-    sid: /^(BY|SY){0,1}(17|18|19|20|21|22)([0-1][0-9]|[2-4][0-2])[0-9]{3}$/,
-    college: function() {
+    from_name: '@cname',
+    student_id: /^(BY|SY){0,1}(17|18|19|20|21|22)([0-1][0-9]|[2-4][0-2])[0-9]{3}$/,
+    department: function() {
       if (Mock.Random.boolean()) return '@cword(1, 5)' + '书院'
       else return '@cword(1, 5)' + '学院'
     },
@@ -21,7 +21,7 @@ for (let i = 0; i < count; i++) {
     end_time: Mock.Random.datetime('yyyy/MM/dd HH:mm:ss'),
     reason: '@cword(5, 10)',
     destination: '@cword(2, 20)',
-    comment: '',
+    comment: '@cword(2, 10)',
     'status|1': [0, 1, 2]
   }))
 }
