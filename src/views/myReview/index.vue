@@ -115,7 +115,7 @@
 
     <el-dialog :title="出校申请审批" :visible.sync="dialogFormVisible">
       <el-descriptions title="出校申请审批" :column="1" border :data="dialog">
-        <el-descriptions-item label="姓名">{{ dialog.name }}</el-descriptions-item>
+        <el-descriptions-item label="姓名">{{ dialog.from_name }}</el-descriptions-item>
         <el-descriptions-item label="学号">{{ dialog.student_id}}</el-descriptions-item>
         <el-descriptions-item label="院系">{{ dialog.department }}</el-descriptions-item>
         <el-descriptions-item label="联系方式">{{ dialog.phone }}</el-descriptions-item>
@@ -173,6 +173,7 @@ export default {
       listLoading: true,
       statusOptions: ['未审批', '审批通过', '审批驳回'],
       listQuery: {
+        to_id: store.getters.userId,
         page: 1,
         limit: 10,
         sort: '-time' // 按申请时间倒序排列
@@ -227,7 +228,6 @@ export default {
     },
     handleUpdate(row, status) {
       this.dialog.id = row.id
-      this.dialog.name = row.from_name
       this.dialog.from_name = row.from_name
       this.dialog.student_id = row.student_id
       this.dialog.department = row.department
@@ -255,7 +255,7 @@ export default {
         department: this.dialog.department,
         phone: this.dialog.phone,
         to_id: store.getters.userId,
-        to_name: this.dialog.to_name,
+        to_name: store.getters.name,
         from_time: this.dialog.from_time,
         to_time: this.dialog.to_time,
         start_time: this.dialog.start_time,
