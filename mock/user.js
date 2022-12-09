@@ -99,7 +99,8 @@ module.exports = [
             menus: [
               'apply',
               'review',
-              'manage'
+              'manage',
+              'dev'
             ],
             points: []
           }

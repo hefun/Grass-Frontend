@@ -1,12 +1,12 @@
 // 每一个js对应一个页面
-// 此js文件对应申请出入校页面
+// 此js文件 出入校审批
 import Layout from '@/layout'
 
 export default {
   name: 'review',
   path: '/review',
   component: Layout,
-  redirect: '/review/reviewleaveschool',
+  redirect: '/review/myreview',
   meta: {
     title: '出入校审批',
     icon: 'approval'

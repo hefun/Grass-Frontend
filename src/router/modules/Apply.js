@@ -9,7 +9,7 @@ export default {
   redirect: '/apply/myapply',
   meta: {
     title: '出入校申请',
-    icon: 'guide'
+    icon: 'submit'
   },
   children: [
     {
