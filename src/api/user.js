@@ -11,7 +11,10 @@ export function login(data) {
 export function getInfo(id) {
   return request({
     url: '/users/getUserInfo',
-    method: 'get'
+    method: 'get',
+    params: {
+      id: id
+    }
   })
 }
 

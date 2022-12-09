@@ -37,33 +37,33 @@ module.exports = {
   //   },
   //   before: require('./mock/mock-server.js')
   // },
-  devServer: {
-    host: 'localhost',
-    port: 9528,
-    proxy: {
-      '/users': {
-        target: 'http://localhost:10008',
-        secure: false,
-        changeOrigin: true
-      },
-      '/apply': {
-        target: 'http://localhost:10008',
-        secure: false,
-        changeOrigin: true
-      },
-      '/review': {
-        target: 'http://localhost:10008',
-        secure: false,
-        changeOrigin: true
-      },
-      '/manage': {
-        target: 'http://localhost:10008',
-        secure: false,
-        changeOrigin: true
-      }
-    }
+  // devServer: {
+  //   host: 'localhost',
+  //   port: 9528,
+  //   proxy: {
+  //     '/users': {
+  //       target: 'http://localhost:10008',
+  //       secure: false,
+  //       changeOrigin: true
+  //     },
+  //     '/apply': {
+  //       target: 'http://localhost:10008',
+  //       secure: false,
+  //       changeOrigin: true
+  //     },
+  //     '/review': {
+  //       target: 'http://localhost:10008',
+  //       secure: false,
+  //       changeOrigin: true
+  //     },
+  //     '/manage': {
+  //       target: 'http://localhost:10008',
+  //       secure: false,
+  //       changeOrigin: true
+  //     }
+  //   }
 
-  },
+  // },
   configureWebpack: {
     // provide the app's title in webpack's name field, so that
     // it can be accessed in index.html to inject the correct title.
