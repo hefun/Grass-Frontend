@@ -125,7 +125,7 @@
     <!--配置用户角色-->
     <el-dialog :title="role" :visible.sync="dialogRoleFormVisible">
       <el-checkbox-group v-model="checkList">
-        <el-checkbox :v-for="role in rolesList" :label="role.name"> {{ role.name }}</el-checkbox>
+        <el-checkbox v-for="role in rolesList" :key="role.id" :label="role.name"> {{ role.name }}</el-checkbox>
       </el-checkbox-group>
       <div slot="footer" class="dialog-footer">
         <el-button @click="dialogRoleFormVisible = false">
@@ -204,6 +204,7 @@ export default {
   },
   created() {
     this.getList()
+    this.getRoles()
   },
   methods: {
     // 获取用户信息列表
@@ -302,8 +303,10 @@ export default {
     getRoles() {
       getRoles().then(response => {
         this.rolesList = response.data
+        console.log('usermanager 305')
         console.log('rolesList')
         console.log(this.rolesList)
+        console.log('usermanager 308')
       })
     },
 
@@ -327,7 +330,7 @@ export default {
       this.temp.roles = this.checkList
       updateUser(this.temp).then(() => {
         this.getList()
-        this.dialogFormVisible = false
+        this.dialogRoleFormVisible = false
         this.$notify({
           title: 'Success',
           message: '信息修改成功',
