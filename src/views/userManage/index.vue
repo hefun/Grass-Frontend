@@ -186,7 +186,19 @@ export default {
       },
       rules: {},
       teachers: [],
-      rolesList: [],
+      rolesList: [
+        {
+          id: 1,
+          name: 'ADMIN',
+          description: '我是无敌的管理员',
+          permissions: [
+            {
+              name: '出入校申请',
+              key: 'apply'
+            }
+          ]
+        }
+      ],
       checkList: []
     }
   },
