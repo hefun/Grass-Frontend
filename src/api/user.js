@@ -52,7 +52,9 @@ export function getTeachers(department) {
   return request({
     url: '/users/getTeachers',
     method: 'get',
-    params: department
+    params: {
+      department: department
+    }
   })
 }
 

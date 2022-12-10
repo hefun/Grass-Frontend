@@ -125,7 +125,7 @@
     <!--配置用户角色-->
     <el-dialog :title="role" :visible.sync="dialogRoleFormVisible">
       <el-checkbox-group v-model="checkList">
-        <el-checkbox :v-for="role in rolesList" :label="role.name"> {{ role.name }}</el-checkbox>
+        <el-checkbox v-for="role in rolesList" :key="role.id" :label="role.name"> {{ role.name }}</el-checkbox>
       </el-checkbox-group>
       <div slot="footer" class="dialog-footer">
         <el-button @click="dialogRoleFormVisible = false">
@@ -204,6 +204,7 @@ export default {
   },
   created() {
     this.getList()
+    this.getRoles()
   },
   methods: {
     // 获取用户信息列表
