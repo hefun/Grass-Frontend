@@ -303,8 +303,10 @@ export default {
     getRoles() {
       getRoles().then(response => {
         this.rolesList = response.data
+        console.log('usermanager 305')
         console.log('rolesList')
         console.log(this.rolesList)
+        console.log('usermanager 308')
       })
     },
 
@@ -328,7 +330,7 @@ export default {
       this.temp.roles = this.checkList
       updateUser(this.temp).then(() => {
         this.getList()
-        this.dialogFormVisible = false
+        this.dialogRoleFormVisible = false
         this.$notify({
           title: 'Success',
           message: '信息修改成功',
